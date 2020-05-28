@@ -1,0 +1,26 @@
+
+#	Pour cacher l'arborescence du site
+#	----------------------------------
+
+RewriteEngine on
+Options -indexes
+
+#	-----------Masque system----------
+RewriteCond %{[REQUEST_URI]} ^system.*
+RewriteRule ^(.*)$ index.php?/$1
+
+#	-----------Masque assets----------
+RewriteRule /(css|img|javascript)/(.*)?$
+assets/$1/$2
+
+
+#	-----------Redirection------------
+#	Toutes les URL différentes de la regex sont réecrites  
+RewriteCond $1 !^(*\.php|assets|images|js|css|uploads|favicon.png)
+
+	RewriteCond %(REQUEST_FILENAME) !-f
+	RewriteCond %(REQUEST_FILENAME) !-d
+
+#	Puis elle sont redirigée, ici sur l'index.php
+RewriteRule ^(.*)$
+index.php/$1 [L]
